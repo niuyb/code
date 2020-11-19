@@ -17,8 +17,6 @@
 {67,0,24,58}
 """
 
-
-# -*- coding:utf-8 -*-
 class ListNode:
     def __init__(self, x):
         self.val = x
