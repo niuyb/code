@@ -20,6 +20,7 @@ class Solution:
         nums=[]
         x = [x for x in range(n+1)]
         for index in x:
+            # print(index)
             if index==0 or index==1:
                 nums.append(index)
             else:
@@ -29,13 +30,23 @@ class Solution:
 
 
 
+    def recur_fibo(self,n):
+       """递归函数
+       输出斐波那契数列"""
+       if n <= 1:
+           # print(n)
+           return n
+       else:
+           print(n-1,n-2)
+           return(self.recur_fibo(n-1) + self.recur_fibo(n-2))
+
+
+
 if __name__ == "__main__":
 
-    # s = Solution()
-    # num,num_list=s.Fibonacci(40)
+    s = Solution()
+    # num,num_list=s.Fibonacci(10)
     # print(num,num_list)
 
-    print(hash("永安行"))
-    print(hash("永安行"))
-    print(hash("百灵时代（北京）文化传媒有限公司"))
-    print(hash("太子地产（柬埔寨）集团有限公司"))
+    fib=s.recur_fibo(5)
+    print(fib)
