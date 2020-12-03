@@ -41,4 +41,4 @@ if __name__ == "__main__":
 
     s= Solution()
 
-    print(s.jumpFloorII(3))
+    print(s.jumpFloorII(5))

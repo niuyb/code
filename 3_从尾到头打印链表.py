@@ -12,10 +12,10 @@
 输入一个链表，按链表从尾到头的顺序返回一个ArrayList。
 """
 
-
 """
 {67,0,24,58}
 """
+
 
 class ListNode:
     def __init__(self, x):
