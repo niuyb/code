@@ -16,6 +16,8 @@ class ListNode:
 
 
 def make_listnode(List):
+    List = List[::-1]
+    print(List)
     # 输入一个列表
     # 输出链表的第一个元素
     head = ListNode(List[0])  # 创建一个头节点并将list第一个值赋值给头结点

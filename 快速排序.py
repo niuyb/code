@@ -7,12 +7,7 @@
 
 
 
-
-
-
-
-
-def quick_sort(list):
+def quick_sort_back(list):
     less = []
     pivotList = []
     more = []
@@ -36,3 +31,28 @@ def quick_sort(list):
         less = quick_sort(less)
         more = quick_sort(more)
         return less + pivotList + more
+
+
+
+def quick_sort(data):
+    """quick_sort"""
+    if len(data) >= 2:
+        mid = data[len(data)//2]
+        left,right = [], []
+        data.remove(mid)
+        for num in data:
+            if num >= mid:
+                right.append(num)
+            else:
+                left.append(num)
+        return quick_sort(left) + [mid] + quick_sort(right)
+    else:
+        return data
+
+
+if __name__ == "__main__":
+
+    # s= Solution()
+    # print(s.reOrderArray([2,3,4,5]))
+
+    print(quick_sort([2,3,4,67,8,9,10,23,45]))
