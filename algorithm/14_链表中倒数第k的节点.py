@@ -6,7 +6,7 @@
 # Python版本：3.7.0
 
 """"""
-from 链表 import make_listnode
+from data_structure.链表 import make_listnode
 
 """
 输入一个链表，输出该链表中倒数第k个结点。

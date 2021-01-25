@@ -6,7 +6,7 @@
 # Python版本：3.7.0
 
 """"""
-from 二叉树 import gen_tree, pre_traverse_tree
+from data_structure.二叉树 import gen_tree, pre_traverse_tree
 
 """
 输入某二叉树的前序遍历和中序遍历的结果，请重建出该二叉树。假设输入的前序遍历和中序遍历的结果中都不含重复的数字。
