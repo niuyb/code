@@ -29,6 +29,8 @@ class Solution:
         for i in range(2,number):
             temp=arr[i-1]+arr[i-2]
             arr.append(temp)
+
+        print(arr[-1])
         return arr[number-1]
 
 

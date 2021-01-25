@@ -63,7 +63,7 @@ def post_traverse_tree(node):
     yield node.value
 
 
-tree = gen_tree(list(range(10)))
+tree = gen_tree(list(range(1,8)))
 # print(tree)
 
 print(list(pre_traverse_tree(tree)))
