@@ -37,9 +37,34 @@ class Solution:
            # print(n)
            return n
        else:
-           print(n-1,n-2)
+           # print(n-1,n-2)
            return(self.recur_fibo(n-1) + self.recur_fibo(n-2))
 
+
+    def fibo(self):
+        nterms = int(input("您要输出几项? "))
+
+        # 检查输入的数字是否正确
+        if nterms <= 0:
+            print("输入正数")
+        else:
+            print("斐波那契数列:")
+            for i in range(1,nterms+1):
+                print(self.recur_fibo(i))
+
+
+    # def recur_fibo(self,n):
+    #    """递归函数
+    #    输出斐波那契数列"""
+    #    out_list=[]
+    #    if n <= 1:
+    #        print(n)
+    #        out_list.append(n)
+    #        print(out_list)
+    #        return n
+    #    else:
+    #        # print(n-1,n-2)
+    #        return(self.recur_fibo(n-1) + self.recur_fibo(n-2))
 
 
 if __name__ == "__main__":
@@ -48,5 +73,7 @@ if __name__ == "__main__":
     # num,num_list=s.Fibonacci(10)
     # print(num,num_list)
 
-    fib=s.recur_fibo(5)
-    print(fib)
+    # fib=s.recur_fibo(7)
+    # print(fib)
+
+    s.fibo()

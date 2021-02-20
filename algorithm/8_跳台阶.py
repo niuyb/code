@@ -30,8 +30,11 @@ class Solution:
             temp=arr[i-1]+arr[i-2]
             arr.append(temp)
 
+        print(arr)
         print(arr[-1])
         return arr[number-1]
+
+
 
 
 
@@ -41,4 +44,5 @@ if __name__ == "__main__":
     s = Solution()
     print(s.jumpFloor(5))
 
+    print(self_jumpfloor(6))
 
