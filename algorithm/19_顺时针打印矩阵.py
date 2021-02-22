@@ -41,26 +41,22 @@ class Solution:
             # extend 在列表末端添加多个值
             result.extend(matrix.pop(0))
 
-            # print(zip(*matrix))
-            print(list(map(list,zip(*matrix))))
+            # zip(*list)
+            # [1,2],[3,4],[5,6]  -->  [(1, 3, 5), (2, 4, 6)]
+            # zip(*list) 顺时针90旋转
+            # zip(*list)[::-1]   逆时针90旋转
 
             matrix=list(map(list,zip(*matrix)))[::-1]
+            # print(matrix)
+            # print("----------------")
         return result
+
 
 
 if __name__ == "__main__":
     temp_list = [[1,2,3,4],[5,6,7,8],[9,10,11,12],[13,14,15,16]]
     s = Solution()
     r=s.printMatrix(temp_list)
-    # print(r)
+    print(r)
 
     # print(list(map(list,zip(*temp_list))))
-
-
-
-if __name__ == "__main__1":
-
-    print(map(str,[1,2,3,4,5,6,7,8,9,0]))
-    a= map(str, [1, 2, 3, 4, 5, 6, 7, 8, 9, 0])
-    for i in a:
-        print(i,type(i))
