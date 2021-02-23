@@ -27,13 +27,16 @@ out:  {5}
 class Solution:
     def FindKthToTail(self, head, k):
         # write code here
+        # 参数异常返回None
         if k <= 0:
             return None
+        # 找出链表长度
         len = 0
         p = head
         while p:
             len += 1
             p = p.next
+        # 参数 大于 长度 异常返回None
         if k > len:
             return None
         q = head
@@ -47,12 +50,33 @@ class Solution:
         return r
 
 
+    def self_FindKthToTail(self,head,k):
+        # 参数异常返回None
+        if k <= 0:
+            return None
+        # 找出链表长度
+        len = 0
+        p = head
+        while p:
+            len += 1
+            p = p.next
+        # 参数 大于 长度 异常返回None
+        if k > len:
+            return None
+        q = head
+        index = len - k
+        for i in range(index):
+            q = q.next
+        return q
+
+
 if __name__ == "__main__":
     head=make_listnode([0,1,2,3,4,5,6,7,8,9])
     s= Solution()
-    k  =s.FindKthToTail(head,2)
+    k  =s.FindKthToTail(head,6)
     print(k.val)
-
+    k  =s.self_FindKthToTail(head,6)
+    print(k.val)
 
 
 
