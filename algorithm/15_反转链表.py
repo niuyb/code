@@ -5,6 +5,7 @@
 # 工具：PyCharm
 # Python版本：3.7.0
 """"""
+from data_structure.链表 import make_listnode, print_listnode
 
 """
 输入一个链表，反转链表后，输出新链表的表头。
@@ -35,3 +36,17 @@ class Solution:
         while cur:
             cur.next, prev, cur = prev, cur, cur.next
         return prev
+
+
+
+if __name__ == "__main__":
+
+    head=make_listnode([0,1,2,3,4,5,6,7,8,9])
+
+    print_listnode(head)
+
+    s= Solution()
+    k  =s.ReverseList(head)
+
+    print_listnode(k)
+
