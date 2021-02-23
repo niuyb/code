@@ -87,3 +87,15 @@ sum3 = reduce(lambda x, y: x+y,[1,2,3,4,5],6)  # 使用 lambda 匿名函数
 print(sum1)
 print(sum2)
 print(sum3)
+
+
+
+
+#   *  ** 区别
+def fun(a, b, c):
+    print (a, b, c)
+
+list1=[[1,2,3]]
+dict1 = {"c":1,"b":2}
+print(*list1)
+fun("2",**dict1)
