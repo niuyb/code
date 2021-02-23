@@ -16,7 +16,7 @@ class ListNode:
 
 
 def make_listnode(List):
-    List = List[::-1]
+    # List = List[::-1]
     print(List)
     # 输入一个列表
     # 输出链表的第一个元素
@@ -26,3 +26,19 @@ def make_listnode(List):
         p.next = ListNode(List[i])  # 下一个结点p.next指向list值
         p = p.next  # 指针往下移动
     return head  # 返回头结点
+
+
+
+# 输出链表顺序
+def print_listnode(head):
+    listnode = []
+    p = head
+    while True:
+        if p:
+            listnode.append(p.val)
+            p = p.next
+        else:
+            print(listnode)
+            return listnode
+
+
