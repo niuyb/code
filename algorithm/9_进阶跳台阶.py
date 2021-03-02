@@ -32,11 +32,11 @@ class Solution:
         else:
             list1 = [1,2]
             for i in range(number-2):
-                print(sum(list1))
+                # print(sum(list1))
                 # +1  一步登顶
                 list1.append(sum(list1)+1)
-            print("end:",list1[-1])
-            print(list1)
+            # print("end:",list1[-1])
+            # print(list1)
             return list1[-1]
 
 
