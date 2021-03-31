@@ -135,3 +135,52 @@ class Simple_Stack():
     def showStack(self):
         print(self.stack)
 
+
+
+
+
+
+class BinaryHeap(object):
+    """一个二叉堆, 小顶堆 利用列表实现"""
+
+    def __init__(self, max_size=math.inf):
+        pass
+
+    def __len__(self):
+        """求长度"""
+        pass
+
+    def insert(self, *data):
+        """向堆中插入元素"""
+        pass
+
+    def _siftup(self):
+        """最后插入的元素上浮"""
+        pass
+
+    def _siftdown(self, idx):
+        """序号为i的元素下沉"""
+        pass
+
+    def get_min(self):
+        pass
+
+    def delete_min(self):
+        """删除堆顶元素"""
+        pass
+
+    def create_heap(self, data):
+        """直接创建一个小顶堆, 接收一个可迭代对象参数,效果同insert, 效率比insert一个个插入高,时间复杂度为n"""
+        pass
+
+    def clear(self):
+        """清空堆"""
+        pass
+
+    def update_key(self, idx, key):
+        """更新指定位置的元素, idx>=1"""
+        pass
+
+    def delete_key(self, idx):
+        """删除指定位置的元素, idx>=1"""
+        pass

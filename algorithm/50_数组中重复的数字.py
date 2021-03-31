@@ -58,7 +58,17 @@ class Solution:
                 L.append(num)
         return -1
 
-
+    def duplicate3(self, numbers):
+        # write code here
+        if not numbers:
+            return -1
+        l = len(numbers)
+        arr = [0] * l
+        for i in numbers:
+            arr[i] += 1
+        for j in range(l):
+            if arr[j] > 1:
+                return j
 
 
 

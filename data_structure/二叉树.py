@@ -63,12 +63,13 @@ def post_traverse_tree(node):
     yield node.value
 
 
-tree = gen_tree(list(range(1,8)))
-# print(tree)
+if __name__ == "__main__":
+    tree = gen_tree(list(range(1,8)))
+    # print(tree)
 
-print(list(pre_traverse_tree(tree)))
-print(list(in_traverse_tree(tree)))
-print(list(post_traverse_tree(tree)))
+    print(list(pre_traverse_tree(tree)))
+    print(list(in_traverse_tree(tree)))
+    print(list(post_traverse_tree(tree)))
 
 
 """前序遍历"""
