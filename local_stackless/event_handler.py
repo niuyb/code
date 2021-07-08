@@ -47,3 +47,10 @@ class EventHandler:
 
     def __call__(self,val):
         self.channel.send(val)
+
+
+if __name__ == "__main__":
+
+    import random
+    print random.randint(1,6)
+    print random.randint(1,6)

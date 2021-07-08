@@ -43,7 +43,7 @@
 list=[1,2,3,4]
 it = iter(list)    # 创建迭代器对象
 for x in it:
-    print (x, end=" ")
+    print (x, " ")
 
 
 # print(list.__iter__())
@@ -100,6 +100,6 @@ print(type(f),f)
 print(f.__iter__())
 while True:
     try:
-        print(next(f), end=" ")
+        print(next(f)," ")
     except StopIteration:
         sys.exit()
