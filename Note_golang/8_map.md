@@ -1,5 +1,8 @@
 # map
 
+- map 直接取值,但map中并没有对应的key   则返回 默认类型的零值   map["key"] // map中不存在key 则返回零值
+- 
+
 ```go
 map[KeyType]ValueType
 ```
@@ -128,6 +131,7 @@ func main() {
 ### 元素为map类型的切片
 
 ```go
+// map 与 slice 都需要初始化 
 func main() {
 	var mapSlice = make([]map[string]string, 3)
 	for index, value := range mapSlice {
@@ -148,6 +152,7 @@ func main() {
 ### 值为切片类型的map
 
 ```go
+// map 与 slice 都需要初始化 
 func main() {
 	var sliceMap = make(map[string][]string, 3)
 	fmt.Println(sliceMap)
