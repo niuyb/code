@@ -1,7 +1,8 @@
 # map
 
 - map 直接取值,但map中并没有对应的key   则返回 默认类型的零值   map["key"] // map中不存在key 则返回零值
-- 
+- make 初始化 map
+- 遍历map时的元素顺序与添加键值对的顺序无关。
 
 ```go
 map[KeyType]ValueType
