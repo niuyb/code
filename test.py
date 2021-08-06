@@ -1,52 +1,157 @@
-# -*- coding:utf-8 -*-
-import json
+# -*- coding: utf8 -*-
 
-from datetime import datetime, timedelta
+import os, sys, datetime, time, urllib2, urllib, json
 
-msg={u'notMetRewardCond': u'\u8d2d\u4e70\u4e70\u4e70\u4e70\u4e70\u4e70\u4e70\u4e70\u4e70\u4e70\u4e70\u4e70\u8bd5\u70bc\u57fa\u91d1\u624d\u53ef', u'pools': [{u'nextType': u'allOpen', u'taskOrder': [12980351, 12980352, 12980353, 12980354, 12980355, 12980356, 12980357, 12980358, 12980359, 12980360, 12980361, 12980362, 12980363, 12980364, 12980365, 12980366, 12980367, 12980368, 12980369, 12980370], u'tasks': [{u'count': 5, u'desc': u'\u8bd5\u70bc\u8fbe\u5230\u7b2c5\u5c42', u'inheritPrevTaskProgress': 1, u'inspectors': [{u'typeId': u'sg.tower.level'}], u'kindId': 12980001, u'militaryRank': 0, u'name': u'\u8bd5\u70bc\u8fbe\u5230\u7b2c5\u5c42\u53ef\u4ee5\u9886\u53d6', u'pic': u'', u'rewardContent': {u'items': [{u'count': 1000, u'itemId': u'user_yuanbao'}], u'typeId': u'FixedContent'}, u'todo': u'hall_tower|fight', u'totalLimit': 1, u'typeId': u'sg.task.simple'}, {u'count': 10, u'desc': u'\u8bd5\u70bc\u8fbe\u5230\u7b2c10\u5c42', u'inheritPrevTaskProgress': 1, u'inspectors': [{u'typeId': u'sg.tower.level'}], u'kindId': 12980002, u'militaryRank': 0, u'name': u'\u8bd5\u70bc\u8fbe\u5230\u7b2c10\u5c42\u53ef\u4ee5\u9886\u53d6.', u'pic': u'', u'rewardContent': {u'items': [{u'count': 1500, u'itemId': u'user_yuanbao'}], u'typeId': u'FixedContent'}, u'todo': u'hall_tower|fight', u'totalLimit': 1, u'typeId': u'sg.task.simple'}, {u'count': 20, u'desc': u'\u8bd5\u70bc\u8fbe\u5230\u7b2c20\u5c42', u'inheritPrevTaskProgress': 1, u'inspectors': [{u'typeId': u'sg.tower.level'}], u'kindId': 12980003, u'militaryRank': 0, u'name': u'.', u'pic': u'', u'rewardContent': {u'items': [{u'count': 1500, u'itemId': u'user_yuanbao'}], u'typeId': u'FixedContent'}, u'todo': u'hall_tower|fight', u'totalLimit': 1, u'typeId': u'sg.task.simple'}, {u'count': 30, u'desc': u'\u8bd5\u70bc\u8fbe\u5230\u7b2c30\u5c42', u'inheritPrevTaskProgress': 1, u'inspectors': [{u'typeId': u'sg.tower.level'}], u'kindId': 12980004, u'militaryRank': 0, u'name': u'.', u'pic': u'', u'rewardContent': {u'items': [{u'count': 1500, u'itemId': u'user_yuanbao'}], u'typeId': u'FixedContent'}, u'todo': u'hall_tower|fight', u'totalLimit': 1, u'typeId': u'sg.task.simple'}, {u'count': 40, u'desc': u'\u8bd5\u70bc\u8fbe\u5230\u7b2c40\u5c42', u'inheritPrevTaskProgress': 1, u'inspectors': [{u'typeId': u'sg.tower.level'}], u'kindId': 12980005, u'militaryRank': 0, u'name': u'.', u'pic': u'', u'rewardContent': {u'items': [{u'count': 1500, u'itemId': u'user_yuanbao'}], u'typeId': u'FixedContent'}, u'todo': u'hall_tower|fight', u'totalLimit': 1, u'typeId': u'sg.task.simple'}, {u'count': 50, u'desc': u'\u8bd5\u70bc\u8fbe\u5230\u7b2c50\u5c42', u'inheritPrevTaskProgress': 1, u'inspectors': [{u'typeId': u'sg.tower.level'}], u'kindId': 12980006, u'militaryRank': 0, u'name': u'.', u'pic': u'', u'rewardContent': {u'items': [{u'count': 2000, u'itemId': u'user_yuanbao'}], u'typeId': u'FixedContent'}, u'todo': u'hall_tower|fight', u'totalLimit': 1, u'typeId': u'sg.task.simple'}, {u'count': 70, u'desc': u'\u8bd5\u70bc\u8fbe\u5230\u7b2c70\u5c42', u'inheritPrevTaskProgress': 1, u'inspectors': [{u'typeId': u'sg.tower.level'}], u'kindId': 12980007, u'militaryRank': 0, u'name': u'.', u'pic': u'', u'rewardContent': {u'items': [{u'count': 1500, u'itemId': u'user_yuanbao'}], u'typeId': u'FixedContent'}, u'todo': u'hall_tower|fight', u'totalLimit': 1, u'typeId': u'sg.task.simple'}, {u'count': 90, u'desc': u'\u8bd5\u70bc\u8fbe\u5230\u7b2c90\u5c42', u'inheritPrevTaskProgress': 1, u'inspectors': [{u'typeId': u'sg.tower.level'}], u'kindId': 12980008, u'militaryRank': 0, u'name': u'.', u'pic': u'', u'rewardContent': {u'items': [{u'count': 1500, u'itemId': u'user_yuanbao'}], u'typeId': u'FixedContent'}, u'todo': u'hall_tower|fight', u'totalLimit': 1, u'typeId': u'sg.task.simple'}, {u'count': 110, u'desc': u'\u8bd5\u70bc\u8fbe\u5230\u7b2c110\u5c42', u'inheritPrevTaskProgress': 1, u'inspectors': [{u'typeId': u'sg.tower.level'}], u'kindId': 12980009, u'militaryRank': 0, u'name': u'.', u'pic': u'', u'rewardContent': {u'items': [{u'count': 2000, u'itemId': u'user_yuanbao'}], u'typeId': u'FixedContent'}, u'todo': u'hall_tower|fight', u'totalLimit': 1, u'typeId': u'sg.task.simple'}, {u'count': 125, u'desc': u'\u8bd5\u70bc\u8fbe\u5230\u7b2c125\u5c42', u'inheritPrevTaskProgress': 1, u'inspectors': [{u'typeId': u'sg.tower.level'}], u'kindId': 12980010, u'militaryRank': 0, u'name': u'.', u'pic': u'', u'rewardContent': {u'items': [{u'count': 1500, u'itemId': u'user_yuanbao'}], u'typeId': u'FixedContent'}, u'todo': u'hall_tower|fight', u'totalLimit': 1, u'typeId': u'sg.task.simple'}, {u'count': 140, u'desc': u'\u8bd5\u70bc\u8fbe\u5230\u7b2c140\u5c42', u'inheritPrevTaskProgress': 1, u'inspectors': [{u'typeId': u'sg.tower.level'}], u'kindId': 12980011, u'militaryRank': 0, u'name': u'.', u'pic': u'', u'rewardContent': {u'items': [{u'count': 1500, u'itemId': u'user_yuanbao'}], u'typeId': u'FixedContent'}, u'todo': u'hall_tower|fight', u'totalLimit': 1, u'typeId': u'sg.task.simple'}, {u'count': 155, u'desc': u'\u8bd5\u70bc\u8fbe\u5230\u7b2c155\u5c42', u'inheritPrevTaskProgress': 1, u'inspectors': [{u'typeId': u'sg.tower.level'}], u'kindId': 12980012, u'militaryRank': 0, u'name': u'.', u'pic': u'', u'rewardContent': {u'items': [{u'count': 1500, u'itemId': u'user_yuanbao'}], u'typeId': u'FixedContent'}, u'todo': u'hall_tower|fight', u'totalLimit': 1, u'typeId': u'sg.task.simple'}, {u'count': 180, u'desc': u'\u8bd5\u70bc\u8fbe\u5230\u7b2c180\u5c42', u'inheritPrevTaskProgress': 1, u'inspectors': [{u'typeId': u'sg.tower.level'}], u'kindId': 12980013, u'militaryRank': 0, u'name': u'.', u'pic': u'', u'rewardContent': {u'items': [{u'count': 2000, u'itemId': u'user_yuanbao'}], u'typeId': u'FixedContent'}, u'todo': u'hall_tower|fight', u'totalLimit': 1, u'typeId': u'sg.task.simple'}, {u'count': 200, u'desc': u'\u8bd5\u70bc\u8fbe\u5230\u7b2c200\u5c42', u'inheritPrevTaskProgress': 1, u'inspectors': [{u'typeId': u'sg.tower.level'}], u'kindId': 12980014, u'militaryRank': 0, u'name': u'.', u'pic': u'', u'rewardContent': {u'items': [{u'count': 3000, u'itemId': u'user_yuanbao'}], u'typeId': u'FixedContent'}, u'todo': u'hall_tower|fight', u'totalLimit': 1, u'typeId': u'sg.task.simple'}, {u'count': 220, u'desc': u'\u8bd5\u70bc\u8fbe\u5230\u7b2c220\u5c42', u'inheritPrevTaskProgress': 1, u'inspectors': [{u'typeId': u'sg.tower.level'}], u'kindId': 12980015, u'militaryRank': 0, u'name': u'.', u'pic': u'', u'rewardContent': {u'items': [{u'count': 2000, u'itemId': u'user_yuanbao'}], u'typeId': u'FixedContent'}, u'todo': u'hall_tower|fight', u'totalLimit': 1, u'typeId': u'sg.task.simple'}, {u'count': 240, u'desc': u'\u8bd5\u70bc\u8fbe\u5230\u7b2c240\u5c42', u'inheritPrevTaskProgress': 1, u'inspectors': [{u'typeId': u'sg.tower.level'}], u'kindId': 12980016, u'militaryRank': 0, u'name': u'.', u'pic': u'', u'rewardContent': {u'items': [{u'count': 2000, u'itemId': u'user_yuanbao'}], u'typeId': u'FixedContent'}, u'todo': u'hall_tower|fight', u'totalLimit': 1, u'typeId': u'sg.task.simple'}, {u'count': 265, u'desc': u'\u8bd5\u70bc\u8fbe\u5230\u7b2c265\u5c42', u'inheritPrevTaskProgress': 1, u'inspectors': [{u'typeId': u'sg.tower.level'}], u'kindId': 12980017, u'militaryRank': 0, u'name': u'.', u'pic': u'', u'rewardContent': {u'items': [{u'count': 3000, u'itemId': u'user_yuanbao'}], u'typeId': u'FixedContent'}, u'todo': u'hall_tower|fight', u'totalLimit': 1, u'typeId': u'sg.task.simple'}, {u'count': 280, u'desc': u'\u8bd5\u70bc\u8fbe\u5230\u7b2c280\u5c42', u'inheritPrevTaskProgress': 1, u'inspectors': [{u'typeId': u'sg.tower.level'}], u'kindId': 12980018, u'militaryRank': 0, u'name': u'.', u'pic': u'', u'rewardContent': {u'items': [{u'count': 2500, u'itemId': u'user_yuanbao'}], u'typeId': u'FixedContent'}, u'todo': u'hall_tower|fight', u'totalLimit': 1, u'typeId': u'sg.task.simple'}, {u'count': 300, u'desc': u'\u8bd5\u70bc\u8fbe\u5230\u7b2c300\u5c42', u'inheritPrevTaskProgress': 1, u'inspectors': [{u'typeId': u'sg.tower.level'}], u'kindId': 12980019, u'militaryRank': 0, u'name': u'.', u'pic': u'', u'rewardContent': {u'items': [{u'count': 2500, u'itemId': u'user_yuanbao'}], u'typeId': u'FixedContent'}, u'todo': u'hall_tower|fight', u'totalLimit': 1, u'typeId': u'sg.task.simple'}, {u'count': 320, u'desc': u'\u8bd5\u70bc\u8fbe\u5230\u7b2c320\u5c42', u'inheritPrevTaskProgress': 1, u'inspectors': [{u'typeId': u'sg.tower.level'}], u'kindId': 12980020, u'militaryRank': 0, u'name': u'.', u'pic': u'', u'rewardContent': {u'items': [{u'count': 3000, u'itemId': u'user_yuanbao'}], u'typeId': u'FixedContent'}, u'todo': u'hall_tower|fight', u'totalLimit': 1, u'typeId': u'sg.task.simple'}]}], u'rewardCond': {u'minCount': 1, u'productId': u'H5_P129_tower_fund_1', u'typeId': u'sg.bought.product'}, u'taskUnitId': u'sg.task.resource.fund.1', u'typeId': u'sg.task.resource.fund.1'}
+debug = 1
+prefix = "idlethree"
+workPath = "/home/tyhall51/hall5/source/idlethree/src/idlethree"
+distFilePath = "/home/tyhall51/hall5/run/hall/bin/idlethree"
 
-#a = json.dumps(msg)
-
-a = json.dumps(msg)
-print a
-
-
+testUserId = 10001
+host = "http://192.168.20.39:8000/v2/idlethree/api"
 
 
+def initArgs():
+    global debug
+    global prefix
+    global workPath
+    global destFilePath
+    global testUserId
+    global host
+
+    srcPath = os.path.dirname(__file__)
+    fullPath = os.path.join(srcPath, 'env.json')
+    with open(fullPath, 'r') as f:
+        data = "\n".join(f.readlines())
+        conf = json.loads(data)
+        debug = conf.get('debug', 1)
+        prefix = conf.get('prefix', 'idlethree')
+        workPath = conf.get("workPath", "/home/tyhall51/hall5/source/idlethree/src/idlethree")
+        distFilePath = conf.get("destFilePath", "/home/tyhall51/hall5/run/hall/bin/idlethree")
+        testUserId = conf.get('testUserId', 1)
+        host = conf.get('host', "")
+
+
+def request(cmd, action, params=None, userId=None):
+    if params is None:
+        params = {}
+    params.update({
+        'cmd': cmd,
+        'action': action,
+        'gameId': 129,
+        'userId': testUserId,
+        'stoken': 'abcd',
+        'clientId': 'H5_2.0_weixin.weixin.0-hall129.weixin.hulaisg'
+    })
+
+    if userId:
+        params['userId'] = userId
+
+    r = urllib2.urlopen(host, urllib.urlencode(params))
+    return json.loads(r.read())
+
+
+def printLog(content):
+    if debug:
+        print(content)
+
+
+def getTodayChangeFiles(workPath):
+    try:
+        if workPath:
+            os.chdir(workPath)
+
+        today = time.strftime("%Y-%m-%d")
+        p = os.popen('find . -maxdepth 100 -newermt "{today}" -type f'.format(today=today), 'r')
+        data = p.read()
+        if data:
+            data = data.split('\n')
+        else:
+            data = []
+        p.close()
+        return data
+    except Exception as e:
+        print(e)
+        return []
+
+
+def filterChangeFiles(files, workPath, distFilePath):
+    """
+    获取有真正变化的问题，根据时间
+    """
+    result = []
+    for f in files:
+        if not f or 'py' not in f:
+            continue
+        motify_time = int(os.path.getmtime(os.path.join(workPath, f)))
+        if distFilePath:
+            if not os.path.exists(os.path.join(distFilePath, f)):
+                result.append(f)
+            else:
+                old_modify_time = int(os.path.getmtime(os.path.join(distFilePath, f)))
+                if old_modify_time < motify_time:
+                    result.append(f)
+    return result
+
+
+def copyFile(files, workPath, distFilePath):
+    for f in files:
+        source_file = os.path.join(workPath, f)
+        dist_file = os.path.join(distFilePath, f)
+        os.system('cp {sourceFile} {distFile}'.format(sourceFile=source_file, distFile=dist_file))
+        printLog('  system command: cp {sourceFile} {distFile}'.format(sourceFile=source_file, distFile=dist_file))
+
+
+def noticeServer(serverAddr, change_files, prefix):
+    transform = []
+    for filename in change_files:
+        # eg "./plugins/whitelist/white_list.py"
+        file_package = prefix + '.' + filename[2:-3]
+        file_package = file_package.replace('/', '.')
+        transform.append(file_package)
+    return request('game', 'debug_auto_reload', {'processId': 'ut', 'change_files': transform})
+
+
+def boot():
+    printLog('== begin ==')
+    initArgs()
+    # check today change files
+    change_files = getTodayChangeFiles(workPath)
+    printLog('\n检测今日文件变化:%s' % len(change_files))
+    format_log = '\n'.join(map(lambda d: "  %s" % d, change_files))
+    printLog(format_log)
+
+    # filter not change files
+    change_files = filterChangeFiles(change_files, workPath, distFilePath)
+    printLog('\n有修改的文件变化:%s' % len(change_files))
+    format_log = '\n'.join(map(lambda d: "  %s" % d, change_files))
+    printLog(format_log)
+
+    # copy file to run/bin directory
+    printLog('\n拷贝文件:%s' % len(change_files))
+    copyFile(change_files, workPath, distFilePath)
+
+    # notice server to reload py code when has change_files
+    if change_files:
+        printLog('\n通知服务进行reload')
+        resp = noticeServer(host, change_files, prefix)
+        printLog("  " + str(resp))
+
+    printLog('== end ==')
+
+
+# boot()
+
+
+if __name__ =="__main__":
+
+
+    def fun1(x):
+
+        Local x
+        def fun2():
+            x +=1
 
 
 
 
-
-
-
-
-
-# class A(object):
-#
-#     def a(self):
-#         print "a"
-#
-#
-# class B(A):
-#     def a(self):
-#         super(B, self).a()
-#
-#         pass
-#
-# B().a()
-
-
-# class A(object):
-#
-#     def a(self):
-#         print "a"
-#
-#
-# class B(A):
-#     def a(self):
-#         pass
-#
-# b = B()
-#
-# A.a(b)
