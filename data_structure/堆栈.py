@@ -100,6 +100,10 @@ class Stack():
         return self.top+1 == self.size
     def isempty(self):
         return self.top == '-1'
+
+    def getLen(self):
+        return len(self.stack)
+
     def showStack(self):
         print(self.stack)
 
@@ -126,12 +130,14 @@ class Simple_Stack():
             raise Exception("stack is empty")
         else:
             # self.top=self.top-1
-            self.stack.pop()
+            self.stack.pop(0)
 
     def isfull(self):
         return len(self.stack) == self.size
     def isempty(self):
         return len(self.stack) == 0
+    def getLen(self):
+        return len(self.stack)
     def showStack(self):
         print(self.stack)
 

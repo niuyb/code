@@ -1,5 +1,5 @@
 # -*- coding: utf8 -*-
-
+import math
 import os, sys, datetime, time, urllib2, urllib, json
 
 debug = 1
@@ -145,13 +145,4 @@ def boot():
 
 if __name__ =="__main__":
 
-
-    def fun1(x):
-
-        Local x
-        def fun2():
-            x +=1
-
-
-
-
+    pass

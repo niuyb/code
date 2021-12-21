@@ -28,6 +28,9 @@ class Solution:
         arr=[1,2]
         for i in range(2,number):
             temp=arr[i-1]+arr[i-2]
+
+            print arr[i-1],arr[i-2]
+            print arr
             arr.append(temp)
 
         print(arr)
