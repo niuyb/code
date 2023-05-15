@@ -113,7 +113,7 @@ def noticeServer(serverAddr, change_files, prefix):
 
 
 def boot():
-    printLog('== begin ==')
+    printLog('== begin ==+')
     initArgs()
     # check today change files
     change_files = getTodayChangeFiles(workPath)
