@@ -33,7 +33,8 @@ type ListNode struct {
 	Next *ListNode
 }
 
-func deleteMiddle(head *ListNode) *ListNode {
+// 遍历长度求中间位置
+func deleteMiddle2(head *ListNode) *ListNode {
 	n := 1
 	var index_mid int
 	pre := head
@@ -42,10 +43,10 @@ func deleteMiddle(head *ListNode) *ListNode {
 		n++
 		check_n = check_n.Next
 	}
-    if n == 1{
-        return nil
-    }
-    index_mid = (n / 2)
+	if n == 1 {
+		return nil
+	}
+	index_mid = (n / 2)
 	for i := 0; i < index_mid; i++ {
 		if i == index_mid-1 {
 			pre.Next = pre.Next.Next
@@ -56,9 +57,27 @@ func deleteMiddle(head *ListNode) *ListNode {
 	return head
 }
 
+// 快慢指针
+func deleteMiddle(head *ListNode) *ListNode {
+	slow, fast := head, head
+	pre := head
+	for fast.Next != nil {
+		// 慢指针移动
+		pre = slow
+		slow = slow.Next
+		//确定快指针前进步数 fast位移
+		if fast.Next == nil || fast.Next.Next == nil {
+			fast = fast.Next
+		} else {
+			fast = fast.Next.Next
+		}
+	}
+	pre.Next = slow.Next
+	return head
+}
 
 func main() {
-	head_list := []int{1, 3, 4, 7, 1, 2, 6}
+	head_list := []int{1, 2, 3, 4}
 	var head *ListNode
 	var per *ListNode
 	// var
@@ -76,12 +95,12 @@ func main() {
 	}
 	// fmt.Println(head.Val)
 	// check
-	check := head
-	fmt.Println("check --->")
-	for check.Next != nil {
-		check = check.Next
-		fmt.Println(check.Val)
-	}
+	// check := head
+	// fmt.Println("check --->")
+	// for check.Next != nil {
+	// 	check = check.Next
+	// 	fmt.Println(check.Val)
+	// }
 	ret_head := deleteMiddle(head)
 	fmt.Println("ret --->")
 	ret := ret_head
