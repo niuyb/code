@@ -12,27 +12,6 @@ type TreeNode struct {
 	Right *TreeNode
 }
 
-// 中间节点生成树
-func arrayToTree(array []int) *TreeNode {
-	// index := -1
-	return buildTree(array, 0, len(array)-1)
-}
-func buildTree(nums []int, start int, end int) *TreeNode {
-	// 如果 start > end ，说明用于生产二叉树的数组区间为空，
-	// 则对应的二叉树为空，返回 None
-	if start > end {
-		return nil
-	}
-	// 根节点就是区间 [start, end] 中间的数，这样就能保证根节点是高度平衡的，
-	// 因为左右子树的结点数相差不超过 1
-	mid := (start + end) / 2
-	return &TreeNode{
-		Val: nums[mid],
-		// 递归生成左右子树
-		Left:  buildTree(nums, start, mid-1),
-		Right: buildTree(nums, mid+1, end),
-	}
-}
 func getTreeHeight(root *TreeNode) int {
 	if root == nil {
 		return 0
@@ -154,15 +133,49 @@ func bfsBuildTree(tree_list []int, tree_stack []*TreeNode) {
 
 	}
 }
+
+func maxDepth_1(root *TreeNode) int {
+	if root == nil {
+		return 0
+	}
+	return max(maxDepth(root.Left), maxDepth(root.Right)) + 1
+}
+
+func max(a, b int) int {
+	if a > b {
+		return a
+	}
+	return b
+}
+
+func maxDepth(root *TreeNode) int {
+	var tree_stack []*TreeNode
+	tree_stack = append(tree_stack, root)
+	var deep int
+	for len(tree_stack) > 0 {
+		temp_tree_stack := make([]*TreeNode, len(tree_stack))
+		copy(temp_tree_stack, tree_stack)
+		tree_stack = tree_stack[0:0]
+		for _, node := range temp_tree_stack {
+			if node.Left != nil && node.Left.Val != 0 {
+				tree_stack = append(tree_stack, node.Left)
+			}
+			if node.Right != nil && node.Right.Val != 0 {
+				tree_stack = append(tree_stack, node.Right)
+			}
+		}
+		deep++
+	}
+	return deep
+}
+
 func main() {
 
-	// inf := math.Inf(-1)
-	// tree_list := []float64{3, 9, 20, inf, inf, 15, 7}
-	tree_list := []int{3, 9, 20, 0, 0, 15, 7}
-
+	tree_list := []int{3, 9, 20, 0, 0, 15, 7, 10, 0}
 	root := bfsArrayToTree(tree_list)
-
-	// root := arrayToTree(tree_list)
 	printAvlTree(root)
+
+	deep := maxDepth(root)
+	fmt.Println("ret->>", deep)
 
 }

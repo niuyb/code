@@ -1,5 +1,24 @@
 package main
 
+// 请考虑一棵二叉树上所有的叶子，这些叶子的值按从左到右的顺序排列形成一个 叶值序列 。
+// 		   3
+// 		/     \
+// 	  5          1
+//  /   \      /   \
+// 6      2   9     8
+// 		 / \
+// 	    7   4
+// 举个例子，如上图所示，给定一棵叶值序列为 (6, 7, 4, 9, 8) 的树。
+// 如果有两棵二叉树的叶值序列是相同，那么我们就认为它们是 叶相似 的。
+// 如果给定的两个根结点分别为 root1 和 root2 的树是叶相似的，则返回 true；否则返回 false 。
+
+// 示例 1：
+// 输入：root1 = [3,5,1,6,2,9,8,null,null,7,4], root2 = [3,5,1,6,7,4,2,null,null,null,null,null,null,9,8]
+// 输出：true
+// 示例 2：
+// 输入：root1 = [1,2,3], root2 = [1,3,2]
+// 输出：false
+
 import (
 	"fmt"
 	"math"
@@ -12,27 +31,6 @@ type TreeNode struct {
 	Right *TreeNode
 }
 
-// 中间节点生成树
-func arrayToTree(array []int) *TreeNode {
-	// index := -1
-	return buildTree(array, 0, len(array)-1)
-}
-func buildTree(nums []int, start int, end int) *TreeNode {
-	// 如果 start > end ，说明用于生产二叉树的数组区间为空，
-	// 则对应的二叉树为空，返回 None
-	if start > end {
-		return nil
-	}
-	// 根节点就是区间 [start, end] 中间的数，这样就能保证根节点是高度平衡的，
-	// 因为左右子树的结点数相差不超过 1
-	mid := (start + end) / 2
-	return &TreeNode{
-		Val: nums[mid],
-		// 递归生成左右子树
-		Left:  buildTree(nums, start, mid-1),
-		Right: buildTree(nums, mid+1, end),
-	}
-}
 func getTreeHeight(root *TreeNode) int {
 	if root == nil {
 		return 0
@@ -154,15 +152,46 @@ func bfsBuildTree(tree_list []int, tree_stack []*TreeNode) {
 
 	}
 }
+
+// 深度遍历
+func leafSimilar(root1 *TreeNode, root2 *TreeNode) bool {
+	var preorder func(*TreeNode, *[]int)
+	var res1 []int
+	var res2 []int
+	preorder = func(node *TreeNode, res *[]int) {
+		if node == nil {
+			return
+		}
+		if node.Left == nil && node.Right == nil {
+			*res = append(*res, node.Val)
+		}
+		preorder(node.Left, res)
+		preorder(node.Right, res)
+	}
+	preorder(root1, &res1)
+	preorder(root2, &res2)
+	if len(res1) != len(res2) {
+		return false
+	}
+	for index, val := range res1 {
+		if val != res2[index] {
+			return false
+		}
+	}
+	return true
+}
+
 func main() {
 
-	// inf := math.Inf(-1)
-	// tree_list := []float64{3, 9, 20, inf, inf, 15, 7}
-	tree_list := []int{3, 9, 20, 0, 0, 15, 7}
+	tree_list_root1 := []int{3, 5, 1, 6, 2, 9, 8, 0, 0, 7, 4}
+	tree_list_root2 := []int{3, 5, 1, 6, 7, 4, 2, 0, 0, 0, 0, 0, 0, 9, 8}
 
-	root := bfsArrayToTree(tree_list)
+	root1 := bfsArrayToTree(tree_list_root1)
+	printAvlTree(root1)
 
-	// root := arrayToTree(tree_list)
-	printAvlTree(root)
+	root2 := bfsArrayToTree(tree_list_root2)
+	printAvlTree(root2)
+
+	leafSimilar(root1, root2)
 
 }
