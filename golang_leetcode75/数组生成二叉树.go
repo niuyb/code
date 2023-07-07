@@ -12,27 +12,7 @@ type TreeNode struct {
 	Right *TreeNode
 }
 
-// 中间节点生成树
-func arrayToTree(array []int) *TreeNode {
-	// index := -1
-	return buildTree(array, 0, len(array)-1)
-}
-func buildTree(nums []int, start int, end int) *TreeNode {
-	// 如果 start > end ，说明用于生产二叉树的数组区间为空，
-	// 则对应的二叉树为空，返回 None
-	if start > end {
-		return nil
-	}
-	// 根节点就是区间 [start, end] 中间的数，这样就能保证根节点是高度平衡的，
-	// 因为左右子树的结点数相差不超过 1
-	mid := (start + end) / 2
-	return &TreeNode{
-		Val: nums[mid],
-		// 递归生成左右子树
-		Left:  buildTree(nums, start, mid-1),
-		Right: buildTree(nums, mid+1, end),
-	}
-}
+// 输出一个树
 func getTreeHeight(root *TreeNode) int {
 	if root == nil {
 		return 0
@@ -154,15 +134,33 @@ func bfsBuildTree(tree_list []int, tree_stack []*TreeNode) {
 
 	}
 }
+
+// 中间节点生成树
+func arrayToTree(array []int) *TreeNode {
+	// index := -1
+	return buildTree(array, 0, len(array)-1)
+}
+func buildTree(nums []int, start int, end int) *TreeNode {
+	// 如果 start > end ，说明用于生产二叉树的数组区间为空，
+	// 则对应的二叉树为空，返回 None
+	if start > end {
+		return nil
+	}
+	// 根节点就是区间 [start, end] 中间的数，这样就能保证根节点是高度平衡的，
+	// 因为左右子树的结点数相差不超过 1
+	mid := (start + end) / 2
+	return &TreeNode{
+		Val: nums[mid],
+		// 递归生成左右子树
+		Left:  buildTree(nums, start, mid-1),
+		Right: buildTree(nums, mid+1, end),
+	}
+}
+
 func main() {
 
-	// inf := math.Inf(-1)
-	// tree_list := []float64{3, 9, 20, inf, inf, 15, 7}
 	tree_list := []int{3, 9, 20, 0, 0, 15, 7}
-
 	root := bfsArrayToTree(tree_list)
-
-	// root := arrayToTree(tree_list)
 	printAvlTree(root)
 
 }
