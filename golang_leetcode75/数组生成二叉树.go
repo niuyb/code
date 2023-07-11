@@ -6,13 +6,14 @@ import (
 	"strconv"
 )
 
+var Null int
+
 type TreeNode struct {
 	Val   int
 	Left  *TreeNode
 	Right *TreeNode
 }
 
-// 输出一个树
 func getTreeHeight(root *TreeNode) int {
 	if root == nil {
 		return 0
@@ -95,7 +96,7 @@ func bfsArrayToTree(tree_list []int) *TreeNode {
 	}
 	// 节点数组去除根结点
 	tree_list = tree_list[1:]
-	// 跟节点入栈
+	// 根节点入栈
 	tree_stack = append(tree_stack, root)
 	// 循环建立二叉树
 	bfsBuildTree(tree_list, tree_stack)
@@ -113,14 +114,14 @@ func bfsBuildTree(tree_list []int, tree_stack []*TreeNode) {
 		for _, node := range temp_tree_stack {
 			// 出栈 链接左右子节点
 			if len(tree_list) > 0 {
-				if tree_list[0] > 0 {
+				if tree_list[0] != Null {
 					node.Left = &TreeNode{
 						Val: tree_list[0],
 					}
 					// 左右子节点再次入栈
 					tree_stack = append(tree_stack, node.Left)
 				}
-				if tree_list[1] > 0 {
+				if tree_list[1] != Null {
 					node.Right = &TreeNode{
 						Val: tree_list[1],
 					}
@@ -128,6 +129,7 @@ func bfsBuildTree(tree_list []int, tree_stack []*TreeNode) {
 					tree_stack = append(tree_stack, node.Right)
 				}
 				// 二叉树左右子节点 只有2个
+				fmt.Println(tree_list[:2])
 				tree_list = tree_list[2:]
 			}
 		}
