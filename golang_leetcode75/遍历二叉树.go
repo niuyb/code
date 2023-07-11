@@ -158,16 +158,16 @@ func bfsBuildTree(tree_list []int, tree_stack []*TreeNode) {
 
 // dfs + 递归
 func goodNodes1(root *TreeNode) (ret []int) {
-	var dfs_call func(node *TreeNode, nax int)
-	dfs_call = func(node *TreeNode, max int) {
+	var dfs_call func(node *TreeNode)
+	dfs_call = func(node *TreeNode) {
 		if node == nil {
 			return
 		}
 		ret = append(ret, node.Val)
-		dfs_call(node.Left, max)
-		dfs_call(node.Right, max)
+		dfs_call(node.Left)
+		dfs_call(node.Right)
 	}
-	dfs_call(root, math.MinInt)
+	dfs_call(root)
 	return
 }
 
@@ -198,15 +198,55 @@ func goodNodes2(root *TreeNode) (ret []int) {
 }
 
 // bfs + 递归
-func goodNodes3(root *TreeNode) int {
-	return 1
+func goodNodes3(root *TreeNode) (ret []int) {
+	var bfs_call func(node *TreeNode, level int)
+	var depth [][]int
+	var level int
+	bfs_call = func(node *TreeNode, level int) {
+		if node == nil {
+			return
+		}
+		// 二维数组 树高作为二维数组的下标 保存每层的节点
+		if len(depth) == level {
+			depth = append(depth, []int{})
+		}
+		depth[level] = append(depth[level], node.Val)
+		if node.Left != nil {
+			bfs_call(node.Left, level+1)
+		}
+		if node.Right != nil {
+			bfs_call(node.Right, level+1)
+		}
+	}
+	bfs_call(root, level)
+	for _, temp := range depth {
+		ret = append(ret, temp...)
+	}
+	return
 
 }
 
 // bfs + 迭代
-func goodNodes4(root *TreeNode) int {
-	return 1
-
+func goodNodes4(root *TreeNode) (ret []int) {
+	var tree_stack []*TreeNode
+	tree_stack = append(tree_stack, root)
+	for len(tree_stack) > 0 {
+		temp_stack := make([]*TreeNode, len(tree_stack))
+		copy(temp_stack, tree_stack)
+		tree_stack = tree_stack[0:0]
+		for _, node := range temp_stack {
+			if node != nil {
+				ret = append(ret, node.Val)
+			}
+			if node.Left != nil {
+				tree_stack = append(tree_stack, node.Left)
+			}
+			if node.Right != nil {
+				tree_stack = append(tree_stack, node.Right)
+			}
+		}
+	}
+	return
 }
 
 func main() {
@@ -223,4 +263,10 @@ func main() {
 
 	ret = goodNodes2(root)
 	fmt.Println("goodnode 2 --->", ret)
+
+	ret = goodNodes3(root)
+	fmt.Println("goodnode 3 --->", ret)
+
+	ret = goodNodes4(root)
+	fmt.Println("goodnode 4 --->", ret)
 }
