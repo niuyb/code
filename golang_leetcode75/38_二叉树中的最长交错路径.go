@@ -6,6 +6,26 @@ import (
 	"strconv"
 )
 
+// 给你一棵以 root 为根的二叉树，二叉树中的交错路径定义如下：
+// 选择二叉树中 任意 节点和一个方向（左或者右）。
+// 如果前进方向为右，那么移动到当前节点的的右子节点，否则移动到它的左子节点。
+// 改变前进方向：左变右或者右变左。
+// 重复第二步和第三步，直到你在树中无法继续移动。
+// 交错路径的长度定义为：访问过的节点数目 - 1（单个节点的路径长度为 0 ）。
+// 请你返回给定树中最长 交错路径 的长度。
+
+// 示例 1：
+// 输入：root = [1,null,1,1,1,null,null,1,1,null,1,null,null,null,1,null,1]
+// 输出：3
+// 解释：蓝色节点为树中最长交错路径（右 -> 左 -> 右）。
+// 示例 2：
+// 输入：root = [1,1,1,null,1,null,null,1,1,null,1]
+// 输出：4
+// 解释：蓝色节点为树中最长交错路径（左 -> 右 -> 左 -> 右）。
+// 示例 3：
+// 输入：root = [1]
+// 输出：0
+
 var Null int
 
 type TreeNode struct {
@@ -136,13 +156,6 @@ func bfsBuildTree(tree_list []int, tree_stack []*TreeNode) {
 	}
 }
 
-func maxDepth_1(root *TreeNode) int {
-	if root == nil {
-		return 0
-	}
-	return max(maxDepth(root.Left), maxDepth(root.Right)) + 1
-}
-
 func max(a, b int) int {
 	if a > b {
 		return a
@@ -150,34 +163,41 @@ func max(a, b int) int {
 	return b
 }
 
-func maxDepth(root *TreeNode) int {
-	var tree_stack []*TreeNode
-	tree_stack = append(tree_stack, root)
-	var deep int
-	for len(tree_stack) > 0 {
-		temp_tree_stack := make([]*TreeNode, len(tree_stack))
-		copy(temp_tree_stack, tree_stack)
-		tree_stack = tree_stack[0:0]
-		for _, node := range temp_tree_stack {
-			if node.Left != nil && node.Left.Val != 0 {
-				tree_stack = append(tree_stack, node.Left)
-			}
-			if node.Right != nil && node.Right.Val != 0 {
-				tree_stack = append(tree_stack, node.Right)
-			}
+// dfs
+func longestZigZag(root *TreeNode) int {
+	var zzdfs func(*TreeNode, bool, int)
+	// 记录最长的交叉列表长度
+	var maxzz int
+	zzdfs = func(node *TreeNode, flag bool, curr_len int) {
+		if node == nil {
+			return
 		}
-		deep++
+		maxzz = max(maxzz, curr_len)
+		// flag true 向右 flase 向左
+		if flag {
+			// 第一次向右之后在向左 所以 node.left,flag 为true 左姐节点遍历时，应该向右遍历
+			zzdfs(node.Right, false, curr_len+1)
+			// 重置时已有父节点，所以curr_len 为1
+			zzdfs(node.Left, true, 1)
+		} else {
+			zzdfs(node.Left, true, curr_len+1)
+			zzdfs(node.Right, false, 1)
+		}
 	}
-	return deep
+	// 开始向右遍历
+	zzdfs(root, true, 0)
+	// 开始向左遍历
+	zzdfs(root, false, 0)
+	return maxzz
 }
 
 func main() {
-
-	tree_list := []int{3, 9, 20, 0, 0, 15, 7, 10, 0}
+	// tree_list := []int{1, 2, 3, 0, 4, 0, 0, 5, 6, 0, 7}
+	tree_list := []int{1, 2, 3, 4, 0, 0, 5}
+	// tree_list := []int{1, 0, 1, 1, 1, 0, 0, 1, 1, 0, 1, 0, 0, 0, 1}
 	root := bfsArrayToTree(tree_list)
 	printAvlTree(root)
 
-	deep := maxDepth(root)
-	fmt.Println("ret->>", deep)
-
+	ret := longestZigZag(root)
+	fmt.Println("ret --->", ret)
 }

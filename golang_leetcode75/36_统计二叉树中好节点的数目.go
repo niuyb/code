@@ -6,6 +6,26 @@ import (
 	"strconv"
 )
 
+// 给你一棵根为 root 的二叉树，请你返回二叉树中好节点的数目。
+// 「好节点」X 定义为：从根到该节点 X 所经过的节点中，没有任何节点的值大于 X 的值
+//
+// 示例 1：
+// 输入：root = [3,1,4,3,null,1,5]
+// 输出：4
+// 解释：图中蓝色节点为好节点。
+// 根节点 (3) 永远是个好节点。
+// 节点 4 -> (3,4) 是路径中的最大值。
+// 节点 5 -> (3,4,5) 是路径中的最大值。
+// 节点 3 -> (3,1,3) 是路径中的最大值。
+// 示例 2：
+// 输入：root = [3,3,null,4,2]
+// 输出：3
+// 解释：节点 2 -> (3, 3, 2) 不是好节点，因为 "3" 比它大。
+// 示例 3：
+// 输入：root = [1]
+// 输出：1
+// 解释：根节点是好节点。
+
 var Null int
 
 type TreeNode struct {
@@ -136,48 +156,61 @@ func bfsBuildTree(tree_list []int, tree_stack []*TreeNode) {
 	}
 }
 
-func maxDepth_1(root *TreeNode) int {
-	if root == nil {
-		return 0
-	}
-	return max(maxDepth(root.Left), maxDepth(root.Right)) + 1
-}
-
-func max(a, b int) int {
-	if a > b {
-		return a
-	}
-	return b
-}
-
-func maxDepth(root *TreeNode) int {
-	var tree_stack []*TreeNode
-	tree_stack = append(tree_stack, root)
-	var deep int
-	for len(tree_stack) > 0 {
-		temp_tree_stack := make([]*TreeNode, len(tree_stack))
-		copy(temp_tree_stack, tree_stack)
-		tree_stack = tree_stack[0:0]
-		for _, node := range temp_tree_stack {
-			if node.Left != nil && node.Left.Val != 0 {
-				tree_stack = append(tree_stack, node.Left)
-			}
-			if node.Right != nil && node.Right.Val != 0 {
-				tree_stack = append(tree_stack, node.Right)
-			}
+// dfs + 递归
+func goodNodes1(root *TreeNode) int {
+	var dfs_call func(node *TreeNode, nax int)
+	var count int
+	dfs_call = func(node *TreeNode, max int) {
+		if node == nil {
+			return
 		}
-		deep++
+		if node.Val >= max {
+			count++
+			max = node.Val
+		}
+		dfs_call(node.Left, max)
+		dfs_call(node.Right, max)
 	}
-	return deep
+	dfs_call(root, math.MinInt)
+	return count
+}
+
+// dfs + 迭代
+func goodNodes2(root *TreeNode) int {
+	var tree_stack []*TreeNode
+	node := root
+	var max int
+	var count int
+	var ret []int
+	for node != nil || len(tree_stack) > 0 {
+		for node != nil {
+			if node.Val >= max {
+				count++
+				max = node.Val
+			} else {
+				node.Val = max
+			}
+			ret = append(ret, node.Val)
+			tree_stack = append(tree_stack, node)
+			node = node.Left
+		}
+		node = tree_stack[len(tree_stack)-1].Right
+		tree_stack = tree_stack[:len(tree_stack)-1]
+	}
+	return count
 }
 
 func main() {
 
-	tree_list := []int{3, 9, 20, 0, 0, 15, 7, 10, 0}
+	tree_list := []int{3, 1, 4, 3, 0, 1, 5}
+	// tree_list := []int{2, 0, 4, 10, 8, 0, 0, 4}
 	root := bfsArrayToTree(tree_list)
 	printAvlTree(root)
 
-	deep := maxDepth(root)
-	fmt.Println("ret->>", deep)
+	var count int
+	count = goodNodes1(root)
+	fmt.Println("goodnode 1 --->", count)
 
+	count = goodNodes2(root)
+	fmt.Println("goodnode 2 --->", count)
 }

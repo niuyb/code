@@ -129,7 +129,6 @@ func bfsBuildTree(tree_list []int, tree_stack []*TreeNode) {
 					tree_stack = append(tree_stack, node.Right)
 				}
 				// 二叉树左右子节点 只有2个
-				fmt.Println(tree_list[:2])
 				tree_list = tree_list[2:]
 			}
 		}

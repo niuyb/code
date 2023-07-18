@@ -6,6 +6,18 @@ import (
 	"strconv"
 )
 
+// 给定一个二叉树的根节点 root ，和一个整数 targetSum ，求该二叉树里节点值之和等于 targetSum 的
+// 路径 的数目。
+// 路径 不需要从根节点开始，也不需要在叶子节点结束，但是路径方向必须是向下的（只能从父节点到子节点
+
+// 示例 1：
+// 输入：root = [10,5,-3,3,2,null,11,3,-2,null,1], targetSum = 8
+// 输出：3
+// 解释：和等于 8 的路径有 3 条，如图所示。
+// 示例 2：
+// 输入：root = [5,4,8,11,null,13,4,7,2,null,null,5,1], targetSum = 22
+// 输出：3
+
 var Null int
 
 type TreeNode struct {
@@ -129,6 +141,7 @@ func bfsBuildTree(tree_list []int, tree_stack []*TreeNode) {
 					tree_stack = append(tree_stack, node.Right)
 				}
 				// 二叉树左右子节点 只有2个
+				fmt.Println(tree_list[:2])
 				tree_list = tree_list[2:]
 			}
 		}
@@ -136,48 +149,56 @@ func bfsBuildTree(tree_list []int, tree_stack []*TreeNode) {
 	}
 }
 
-func maxDepth_1(root *TreeNode) int {
+func rootSum(root *TreeNode, targetSum int) (res int) {
 	if root == nil {
-		return 0
+		return
 	}
-	return max(maxDepth(root.Left), maxDepth(root.Right)) + 1
+	if root.Val == targetSum {
+		res++
+	}
+	res += rootSum(root.Left, targetSum-root.Val)
+	res += rootSum(root.Right, targetSum-root.Val)
+	return
 }
 
-func max(a, b int) int {
-	if a > b {
-		return a
+func pathSum(root *TreeNode, targetSum int) (ret int) {
+	if root == nil {
+		return
 	}
-	return b
+	ret = rootSum(root, targetSum)
+	ret += pathSum(root.Left, targetSum)
+	ret += pathSum(root.Right, targetSum)
+	return
 }
 
-func maxDepth(root *TreeNode) int {
-	var tree_stack []*TreeNode
-	tree_stack = append(tree_stack, root)
-	var deep int
-	for len(tree_stack) > 0 {
-		temp_tree_stack := make([]*TreeNode, len(tree_stack))
-		copy(temp_tree_stack, tree_stack)
-		tree_stack = tree_stack[0:0]
-		for _, node := range temp_tree_stack {
-			if node.Left != nil && node.Left.Val != 0 {
-				tree_stack = append(tree_stack, node.Left)
-			}
-			if node.Right != nil && node.Right.Val != 0 {
-				tree_stack = append(tree_stack, node.Right)
-			}
+func pathSum2(root *TreeNode, targetSum int) (ret int) {
+	preSum := map[int64]int{0: 1}
+	var dfs func(*TreeNode, int64)
+	dfs = func(node *TreeNode, curr int64) {
+		if node == nil {
+			return
 		}
-		deep++
+		curr += int64(node.Val)
+		ret += preSum[curr-int64(targetSum)]
+		preSum[curr]++
+		dfs(node.Left, curr)
+		dfs(node.Right, curr)
+		preSum[curr]--
+		return
 	}
-	return deep
+	dfs(root, 0)
+	return
 }
 
 func main() {
-
-	tree_list := []int{3, 9, 20, 0, 0, 15, 7, 10, 0}
+	tree_list := []int{10, 5, -3, 3, 2, 0, 11, 3, -2, 0, 1}
+	targetSum := 8
 	root := bfsArrayToTree(tree_list)
 	printAvlTree(root)
 
-	deep := maxDepth(root)
-	fmt.Println("ret->>", deep)
+	// ret := pathSum(root, targetSum)
+	// fmt.Println(ret)
 
+	ret2 := pathSum2(root, targetSum)
+	fmt.Println(ret2)
 }

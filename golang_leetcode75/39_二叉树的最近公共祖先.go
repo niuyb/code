@@ -6,6 +6,22 @@ import (
 	"strconv"
 )
 
+// 给定一个二叉树, 找到该树中两个指定节点的最近公共祖先。
+// 百度百科中最近公共祖先的定义为：“对于有根树 T 的两个节点 p、q，最近公共祖先表示为一个节点 x，
+// 满足 x 是 p、q 的祖先且 x 的深度尽可能大（一个节点也可以是它自己的祖先）。”
+// 示例 1：
+
+// 输入：root = [3,5,1,6,2,0,8,null,null,7,4], p = 5, q = 1
+// 输出：3
+// 解释：节点 5 和节点 1 的最近公共祖先是节点 3 。
+// 示例 2：
+// 输入：root = [3,5,1,6,2,0,8,null,null,7,4], p = 5, q = 4
+// 输出：5
+// 解释：节点 5 和节点 4 的最近公共祖先是节点 5 。因为根据定义最近公共祖先节点可以为节点本身。
+// 示例 3：
+// 输入：root = [1,2], p = 1, q = 2
+// 输出：1
+
 var Null int
 
 type TreeNode struct {
@@ -136,48 +152,113 @@ func bfsBuildTree(tree_list []int, tree_stack []*TreeNode) {
 	}
 }
 
-func maxDepth_1(root *TreeNode) int {
-	if root == nil {
-		return 0
-	}
-	return max(maxDepth(root.Left), maxDepth(root.Right)) + 1
-}
-
-func max(a, b int) int {
-	if a > b {
-		return a
-	}
-	return b
-}
-
-func maxDepth(root *TreeNode) int {
-	var tree_stack []*TreeNode
-	tree_stack = append(tree_stack, root)
-	var deep int
-	for len(tree_stack) > 0 {
-		temp_tree_stack := make([]*TreeNode, len(tree_stack))
-		copy(temp_tree_stack, tree_stack)
-		tree_stack = tree_stack[0:0]
-		for _, node := range temp_tree_stack {
-			if node.Left != nil && node.Left.Val != 0 {
-				tree_stack = append(tree_stack, node.Left)
-			}
-			if node.Right != nil && node.Right.Val != 0 {
-				tree_stack = append(tree_stack, node.Right)
+// 找出目标节点的所有父节点
+func findAllFatherRoootInner2(node *TreeNode, target int) (ret []int) {
+	var findFatherNode func(node *TreeNode) bool
+	findFatherNode = func(node *TreeNode) bool {
+		if node == nil {
+			return false
+		}
+		ret = append(ret, node.Val)
+		if node.Val == target {
+			return true
+		}
+		l_flag := findFatherNode(node.Left)
+		r_flag := findFatherNode(node.Right)
+		if l_flag == false && r_flag == false {
+			for index, val := range ret {
+				if val == node.Val {
+					ret = append(ret[:index], ret[index+1:]...)
+					return false
+				}
 			}
 		}
-		deep++
+		return true
 	}
-	return deep
+	findFatherNode(node)
+	return
+}
+func findAllFatherRooot2(node *TreeNode, p, q int) (ret int) {
+	ret1 := findAllFatherRoootInner2(node, p)
+	ret2 := findAllFatherRoootInner2(node, q)
+	for _, i := range ret1 {
+		for _, j := range ret2 {
+			if i == j {
+				ret = j
+			}
+		}
+	}
+	return ret
+}
+
+func findAllFatherRoootInner(node, target *TreeNode) (ret []*TreeNode) {
+	var findFatherNode func(node *TreeNode) bool
+	findFatherNode = func(node *TreeNode) bool {
+		if node == nil {
+			return false
+		}
+		ret = append(ret, node)
+		if node == target {
+			return true
+		}
+		l_flag := findFatherNode(node.Left)
+		r_flag := findFatherNode(node.Right)
+		if l_flag == false && r_flag == false {
+			for index, ret_node := range ret {
+				if ret_node == node {
+					ret = append(ret[:index], ret[index+1:]...)
+					return false
+				}
+			}
+		}
+		return true
+	}
+	findFatherNode(node)
+	return
+}
+
+func findAllFatherRooot(node, p, q *TreeNode) (ret *TreeNode) {
+	ret1 := findAllFatherRoootInner(node, p)
+	ret2 := findAllFatherRoootInner(node, q)
+	for _, i := range ret1 {
+		for _, j := range ret2 {
+			if i == j {
+				ret = j
+			}
+		}
+	}
+	return ret
+}
+
+func lowestCommonAncestor(root, p, q *TreeNode) *TreeNode {
+	if root == nil {
+		return nil
+	}
+	if root == p || root == q {
+		return root
+	}
+	left := lowestCommonAncestor(root.Left, p, q)
+	right := lowestCommonAncestor(root.Right, p, q)
+	if left != nil && right != nil {
+		return root
+	}
+	if left == nil {
+		return right
+	}
+	return left
 }
 
 func main() {
-
-	tree_list := []int{3, 9, 20, 0, 0, 15, 7, 10, 0}
+	tree_list := []int{3, 5, 1, 6, 2, -1, 8, 0, 0, 7, 4}
 	root := bfsArrayToTree(tree_list)
 	printAvlTree(root)
 
-	deep := maxDepth(root)
-	fmt.Println("ret->>", deep)
+	// ret := findAllFatherRoootInner2(root, 7)
+	// fmt.Println("ret --->", ret)
 
+	// ret2 := findAllFatherRoootInner2(root, 6)
+	// fmt.Println("ret2 --->", ret2)
+
+	ret3 := findAllFatherRooot2(root, 7, 4)
+	fmt.Println("ret3 --->", ret3)
 }
