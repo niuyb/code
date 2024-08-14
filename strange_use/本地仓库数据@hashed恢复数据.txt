@@ -1,0 +1,78 @@
+GitLab 使用@hashed 文件重建项目git仓库
+
+
+1、建立docker gitlab 镜像
+
+# 查找Gitlab镜像
+docker search gitlab
+# 拉取Gitlab镜像
+docker pull gitlab/gitlab-ce:latest
+
+2、启动gitlab 镜像
+
+docker run \
+ -itd  \
+ -p 3000:80 \
+ -p 9922:22 \
+ -v /data/gitlab/etc:/etc/gitlab  \
+ -v /data/gitlab/log:/var/log/gitlab \
+ -v /data/gitlab/opt:/var/opt/gitlab \
+ --restart always \
+ --privileged=true \
+ --name gitlab \
+ gitlab/gitlab-ce
+
+命令  描述
+-i   以交互模式运行容器，通常与 -t 同时使用命令解释
+-t   为容器重新分配一个伪输入终端，通常与 -i 同时使用
+-d  后台运行容器，并返回容器ID
+-p 9980:80  将容器内80端口映射至宿主机9980端口，这是访问gitlab的端口
+-p 9922:22   将容器内22端口映射至宿主机9922端口，这是访问ssh的端口
+-v /home/gitlab/etc:/etc/gitlab 将容器/etc/gitlab目录挂载到宿主机/usr/local/gitlab-test/etc目录下，若宿主机内此目录不存在将会自动创建，其他两个挂载同这个一样
+--restart always  容器自启动
+--privileged=true 让容器获取宿主机root权限
+--name gitlab 设置容器名称为gitlab
+gitlab/gitlab-ce  镜像的名称，这里也可以写镜像ID
+
+
+3、修改配置
+
+#进容器内部
+docker exec -it gitlab /bin/bash
+ 
+#修改gitlab.rb
+vi /etc/gitlab/gitlab.rb
+ 
+#加入如下
+#gitlab访问地址，可以写域名。如果端口不写的话默认为80端口
+external_url 'http://192.168.124.194'
+#ssh主机ip
+gitlab_rails['gitlab_ssh_host'] = '192.168.124.194'
+#ssh连接端口
+gitlab_rails['gitlab_shell_ssh_port'] = 9922
+ 
+# 让配置生效
+gitlab-ctl reconfigure
+
+
+
+# 修改http和ssh配置
+vi /opt/gitlab/embedded/service/gitlab-rails/config/gitlab.yml
+ 
+  gitlab:
+    host: 192.168.124.194
+    port: 9980 # 这里改为9980
+    https: false
+
+
+#重启gitlab 
+gitlab-ctl restart
+#退出容器 
+exit
+
+
+4、推送本地代码到gitlab仓库
+
+git push --all ssh://git@192.168.100.99:9922/gitlab-instance-055523b1/ydbs-test.git
+
+git push --all  ssh git 地址
